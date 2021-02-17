@@ -4,6 +4,9 @@
   font-weight: normal;
   font-style: normal;
 }
+@media screen and (min-width: 1200px) {
+  
+}
 body {
   margin: 0px;
   font-family: "playbold";
@@ -59,8 +62,9 @@ body {
   height: 100%;
   padding: 2vh;
 }
-h2 {
+.answer-text {
   margin: 0vh 10vh 0vh 10vh;
+  font-size: 3.5vh;
 }
 h1 {
   font-size: 3.5vh;
@@ -143,14 +147,11 @@ p {
 .answer-button {
   margin: 10px;
 }
-.answerbox{
-  
-}
 .answers {
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
-.answersRow {
+.answers1-3 {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
 }

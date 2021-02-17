@@ -3,16 +3,20 @@ import React, { Component } from "react";
 class QuestButton extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      isVisited: this.props.visited,
+    };
   }
   visit() {
-    this.props.updater(this.props.dataKeys[0], this.props.dataKeys[1], true);
+    this.setState({ isVisited: true });
+    this.props.answer(this.props.dataKeys[0], this.props.dataKeys[1]);
   }
   render() {
-    let isVisited = this.props.visited ? "url-visited" : "url";
-    let Visit = this.props.visited ? () => {} : this.visit.bind(this);
+    let isVisited = this.state.isVisited ? "url-visited" : "url";
+    let funcVisit = this.state.isVisited ? () => {} : this.visit.bind(this);
     return (
       <td>
-        <button className={isVisited} onClick={Visit}>
+        <button className={isVisited} onClick={funcVisit}>
           {this.props.cost}
         </button>
       </td>

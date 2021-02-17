@@ -11,16 +11,17 @@ class App extends Component {
     this.state = {
       Question: false,
       Answered: false,
+      Correctly: false,
       QuizData: quizData,
       CurrentOrder: 1,
-      Incorrect: false,
+      incorrect: false,
       Reset: false,
       ShowAnswer: false,
     };
   }
-  updateQuizData = (rowKey, colomnKey, newData) => {
+  QuizQuestionSelect = (rowKey, colomnKey) => {
     let QuizData = this.state.QuizData;
-    QuizData[rowKey]["Quests"][colomnKey]["Answered"] = newData;
+    QuizData[rowKey]["Quests"][colomnKey]["Answered"] = true;
     this.setState({
       QuizData: QuizData,
       Question: QuizData[rowKey]["Quests"][colomnKey],
@@ -39,7 +40,7 @@ class App extends Component {
     this.setState({
       CurrentOrder: 1,
       Answered: false,
-      Incorrect: false,
+      incorrect: false,
       Reset: true,
     });
   };
@@ -47,13 +48,13 @@ class App extends Component {
     this.setState({
       Reset: false,
       CurrentOrder: 1,
-      Incorrect: false,
+      incorrect: false,
     });
   };
-  SetIncorrect = () => {
-    this.setState({ Answered: false, Incorrect: true });
+  setIncorrect = () => {
+    this.setState({ Answered: false, incorrect: true });
   };
-  NextAnswer = () => {
+  nextAnswer = () => {
     this.setState({ CurrentOrder: this.state.CurrentOrder + 1 });
   };
   Answered = () => {
@@ -63,9 +64,14 @@ class App extends Component {
     this.setState({ ShowAnswer: true });
   };
   Answers = (answers) => {
+    let incorrectBtn = this.state.incorrect ? (
+      <button class="back-button" onClick={this.ResetOrder}>
+        <h6>Сбросить</h6>
+      </button>
+    ) : null;
     let style;
     if (answers.length < 4) {
-      style = "answersRow";
+      style = "answers1-3";
     } else {
       if (answers.length === 5) {
         style = "answers5";
@@ -73,54 +79,66 @@ class App extends Component {
         style = "answers";
       }
     }
-    let IncorrectBtn = this.state.Incorrect ? (
-      <button class="back-button" onClick={this.ResetOrder}>
-        <h6>Сбросить</h6>
-      </button>
-    ) : null;
-    if (typeof answers[0][1] === "boolean") {
-      return (
-        <div className="answerbox">
-          <div className={style}>
-            {answers.map((answer) => (
-              <div className="answer-button">
-                <AnswerButton
-                  isCorrect={answer[1]}
-                  isAnswered={this.state.isAnswered}
-                  Answer={answer[0]}
-                  Incorrect={this.SetIncorrect}
-                  Reset={this.state.Reset}
-                  Update={this.Reset}
-                />
+    switch (typeof answers) {
+      case "object":
+        switch (typeof answers[0][1]) {
+          case "boolean":
+            return (
+              <div className="answerbox">
+                <div className={style}>
+                  {answers.map((answer) => (
+                    <div className="answer-button">
+                      <AnswerButton
+                        isCorrect={answer[1]}
+                        isAnswered={this.state.isAnswered}
+                        answer={answer[0]}
+                        incorrect={this.setIncorrect}
+                        isReset={this.state.Reset}
+                        reset={this.Reset}
+                      />
+                    </div>
+                  ))}
+                </div>
+                {incorrectBtn}
               </div>
-            ))}
-          </div>
-          {IncorrectBtn}
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <div className={style}>
-            {answers.map((answer) => (
-              <div className="answer-button">
-                <OrderButton
-                  placeInOrder={answer[1]}
-                  currentPlace={this.state.CurrentOrder}
-                  Next={this.NextAnswer}
-                  Incorrect={this.SetIncorrect}
-                  isAnswered={this.state.isAnswered}
-                  UpdateAnswer={this.Answered}
-                  Answer={answer[0]}
-                  Reset={this.state.Reset}
-                  Update={this.Reset}
-                />
+            );
+          case "number":
+            return (
+              <div>
+                <div className={style}>
+                  {answers.map((answer) => (
+                    <div className="answer-button">
+                      <OrderButton
+                        placeInOrder={answer[1]}
+                        currentPlace={this.state.CurrentOrder}
+                        next={this.nextAnswer}
+                        incorrect={this.setIncorrect}
+                        isAnswered={this.state.isAnswered}
+                        updateAnswer={this.Answered}
+                        answer={answer[0]}
+                        isReset={this.state.Reset}
+                        reset={this.Reset}
+                      />
+                    </div>
+                  ))}
+                </div>
+                {incorrectBtn}
               </div>
-            ))}
-          </div>
-          {IncorrectBtn}
-        </div>
-      );
+            );
+          default:
+            break;
+        }
+        break;
+      case "string":
+        return this.state.ShowAnswer ? (
+          <p className="answer-text">{this.state.Question.Answer}</p>
+        ) : this.state.Question.Answer !== false ? (
+          <button class="back-button" onClick={this.ShowAnswer}>
+            <h6>Ответ</h6>
+          </button>
+        ) : null;
+      default:
+        return;
     }
   };
   View = () => {
@@ -137,7 +155,7 @@ class App extends Component {
                   <QuestButton
                     cost={quest.Cost}
                     dataKeys={[rowKey, colomnKey]}
-                    updater={this.updateQuizData}
+                    answer={this.QuizQuestionSelect}
                     visited={quest.Answered}
                     answered={this.state.Answered}
                   />
@@ -149,16 +167,8 @@ class App extends Component {
       );
     } else {
       let answers;
-      if (this.state.Question.Answers !== false) {
-        answers = this.Answers(this.state.Question.Answers);
-      } else {
-        answers = this.state.ShowAnswer ? (
-          <h2>{this.state.Question.Answer}</h2>
-        ) : this.state.Question.Answer !== false ? (
-          <button class="back-button" onClick={this.ShowAnswer}>
-            <h6>Ответ</h6>
-          </button>
-        ) : null;
+      if (typeof this.state.Question.Answer !== "undefined") {
+        answers = this.Answers(this.state.Question.Answer);
       }
       return (
         <div class="quiz-question">

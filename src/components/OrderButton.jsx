@@ -4,44 +4,41 @@ class AnswerButton extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isAnswered: this.props.isAnswered,
-      placeInOrder: this.props.placeInOrder,
-      currentPlace: this.props.currentPlace,
+      isAnswered: false,
     };
   }
   CheckAnswer() {
-    this.props.UpdateAnswer();
+    this.props.updateAnswer();
     this.setState({
       isAnswered: true,
-      placeInOrder: this.props.placeInOrder,
       currentPlace: this.props.currentPlace,
     });
-    if (this.state.placeInOrder !== this.props.currentPlace) {
+    if (this.props.placeInOrder !== this.props.currentPlace) {
       this.incorrect();
     }
-    this.props.Next();
+    this.props.next();
   }
   incorrect() {
-    this.props.Incorrect();
+    this.props.incorrect();
     return "incorrect";
   }
   render() {
-    if (this.props.Reset) {
+    if (this.props.isReset) {
       this.setState({
         isAnswered: false,
       });
-      this.props.Update();
+      this.props.reset();
     }
     let isCorrect =
-      this.state.placeInOrder === this.state.currentPlace
+      this.props.placeInOrder === this.state.currentPlace
         ? "correct"
         : "incorrect";
     let F = this.state.isAnswered ? () => {} : this.CheckAnswer.bind(this);
     let A =
-      this.state.isAnswered && this.props.Reset === false ? isCorrect : "";
+      this.state.isAnswered && this.props.isReset === false ? isCorrect : "";
     return (
       <button className="answer-box" data={A} onClick={F}>
-        {this.props.Answer}
+        {this.props.answer}
       </button>
     );
   }
