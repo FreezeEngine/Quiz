@@ -11,7 +11,6 @@ class App extends Component {
     this.state = {
       Question: false,
       Answered: false,
-      Correctly: false,
       QuizData: quizData,
       CurrentOrder: 1,
       Incorrect: false,
@@ -50,11 +49,6 @@ class App extends Component {
       CurrentOrder: 1,
       Incorrect: false,
     });
-  };
-  GiveAnswer = (wasitright) => {
-    if (wasitright === true) {
-    } else {
-    }
   };
   SetIncorrect = () => {
     this.setState({ Answered: false, Incorrect: true });
