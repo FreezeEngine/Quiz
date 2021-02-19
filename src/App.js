@@ -184,6 +184,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+      <div className="warning"><h1 className="text">Не хватает размера экрана для отображения</h1></div>
         <div className="quiz-area">
           <h1 className="title">Управление персоналом</h1>
           <div className="quiz">{this.View()}</div>
