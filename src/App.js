@@ -1,6 +1,5 @@
 import "./css/index.css";
 import React, { Component } from "react";
-import { quizData } from "./QuizData/QuizMap";
 import QuestButton from "./components/QuestButton";
 import AnswerButton from "./components/AnswerButton";
 import OrderButton from "./components/OrderButton";
@@ -12,12 +11,30 @@ class App extends Component {
       Question: false,
       Answered: false,
       Correctly: false,
-      QuizData: quizData,
+      QuizData: null,
       CurrentOrder: 1,
       incorrect: false,
       Reset: false,
       ShowAnswer: false,
     };
+  }
+  componentDidMount() {
+    fetch("./QuizData/QuizMap.json")
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isLoaded: true,
+            QuizData: result,
+          });
+        },
+        (error) => {
+          this.setState({
+            isLoaded: false,
+            error,
+          });
+        }
+      );
   }
   QuizQuestionSelect = (rowKey, colomnKey) => {
     let QuizData = this.state.QuizData;
@@ -142,6 +159,11 @@ class App extends Component {
     }
   };
   View = () => {
+    if(!this.state.isLoaded){
+      return <div class="quiz-question">
+      <p class="question">Загрузка</p>
+    </div>;
+    }
     if (this.state.Question === false) {
       return (
         <table className="quiz-table">
