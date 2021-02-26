@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import QuestButton from "./components/QuestButton";
 import AnswerButton from "./components/AnswerButton";
 import OrderButton from "./components/OrderButton";
+import QuizLoader from "./QuizData/QuizLoader";
 
 class App extends Component {
   constructor(props) {
@@ -11,7 +12,7 @@ class App extends Component {
       Question: false,
       Answered: false,
       Correctly: false,
-      QuizData: null,
+      QuizData: QuizLoader,
       CurrentOrder: 1,
       incorrect: false,
       Reset: false,
@@ -30,7 +31,7 @@ class App extends Component {
         },
         (error) => {
           this.setState({
-            isLoaded: false,
+            isLoaded: true,
             error,
           });
         }
@@ -51,6 +52,7 @@ class App extends Component {
       Answered: false,
       CurrentOrder: 1,
       ShowAnswer: false,
+      incorrect: false,
     });
   };
   ResetOrder = () => {
@@ -159,10 +161,12 @@ class App extends Component {
     }
   };
   View = () => {
-    if(!this.state.isLoaded){
-      return <div class="quiz-question">
-      <p class="question">Загрузка</p>
-    </div>;
+    if (!this.state.isLoaded) {
+      return (
+        <div class="quiz-question">
+          <p class="question">Загрузка</p>
+        </div>
+      );
     }
     if (this.state.Question === false) {
       return (
@@ -206,13 +210,15 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-      <div className="warning"><h1 className="text">Не хватает размера экрана для отображения</h1></div>
+        <div className="warning">
+          <h1 className="text">Не хватает размера экрана для отображения</h1>
+        </div>
         <div className="quiz-area">
-          <h1 className="title">Управление персоналом</h1>
+          <h1 className="title">Экология</h1>
           <div className="quiz">{this.View()}</div>
           <h6 className="title">
-            Подготовили студенты группы ИК-022: Гуляев Егор, Смирнова Наталия,
-            Сидоренко Александр
+            Подготовили студенты группы ИК-022: Сидоренко Александр, Булатова
+            Мария, Андрютина Ольга
           </h6>
         </div>
       </div>

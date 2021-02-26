@@ -5,14 +5,15 @@
   font-style: normal;
 }
 body {
-  --bg-color: rgb(17, 114, 194);
+  --bg-color: rgb(33, 179, 94);
   --text-color: #fff;
   --play-zone-bg-color: #fff;
-  --play-button-border-color: rgb(0, 162, 255);
-  --play-button-selection-color: rgb(255, 0, 191);
+  --play-button-border-color: rgb(37, 245, 123);
+  --play-button-selection-color: rgb(0, 140, 255);
+  --play-button-bg-color: rgb(26, 218, 176);
+  --play-button-visited-color: rgb(44, 196, 216);
   --play-button-active-color: rgb(255, 153, 0);
-  --play-button-bg-color: rgb(25, 153, 238);
-  --play-button-visited-color: rgb(22, 224, 22);
+
   margin: 0px;
   font-family: "playbold";
   text-align: center;
@@ -124,7 +125,7 @@ body {
     border-radius: 10px;
     border-width: 4px;
     border-style: dashed;
-    border-color: rgba(255, 255, 255, 0.322);
+    border-color: rgba(255, 255, 255, 0.76);
     box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.6);
   }
   .url-visited {
