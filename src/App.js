@@ -19,8 +19,14 @@ class App extends Component {
       ShowAnswer: false,
     };
   }
+
   componentDidMount() {
-    fetch("./QuizData/QuizMap.json")
+    fetch("/data/QuizMap.json", {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    })
       .then((res) => res.json())
       .then(
         (result) => {
@@ -31,9 +37,10 @@ class App extends Component {
         },
         (error) => {
           this.setState({
-            isLoaded: true,
+            isLoaded: false,
             error,
           });
+          //console.log(error);
         }
       );
   }
@@ -84,7 +91,7 @@ class App extends Component {
   };
   Answers = (answers) => {
     let incorrectBtn = this.state.incorrect ? (
-      <button class="back-button" onClick={this.ResetOrder}>
+      <button className="back-button" onClick={this.ResetOrder}>
         <h6>Сбросить</h6>
       </button>
     ) : null;
@@ -152,7 +159,7 @@ class App extends Component {
         return this.state.ShowAnswer ? (
           <p className="answer-text">{this.state.Question.Answer}</p>
         ) : this.state.Question.Answer !== false ? (
-          <button class="back-button" onClick={this.ShowAnswer}>
+          <button className="back-button" onClick={this.ShowAnswer}>
             <h6>Ответ</h6>
           </button>
         ) : null;
@@ -163,8 +170,8 @@ class App extends Component {
   View = () => {
     if (!this.state.isLoaded) {
       return (
-        <div class="quiz-question">
-          <p class="question">Загрузка</p>
+        <div className="quiz-question">
+          <p className="question">Загрузка</p>
         </div>
       );
     }
@@ -197,10 +204,10 @@ class App extends Component {
         answers = this.Answers(this.state.Question.Answer);
       }
       return (
-        <div class="quiz-question">
-          <p class="question">{this.state.Question.Question}</p>
+        <div className="quiz-question">
+          <p className="question">{this.state.Question.Question}</p>
           {answers}
-          <button class="back-button" onClick={this.Back}>
+          <button className="back-button" onClick={this.Back}>
             <h6>Вернуться к вопросам</h6>
           </button>
         </div>
@@ -208,12 +215,17 @@ class App extends Component {
     }
   };
   render() {
-    let CssProperties = {
-      '--bg-color':'rgb('+this.state.QuizData.BGColor+')',
-      '--play-button-selection-color':'rgb(',
-      '--play-button-bg-color':'rgb(',
-      '--play-button-visited-color':'rgb('
-    };
+    let CssProperties = {};
+    if (this.state.QuizData !== null) {
+      CssProperties = {
+        "--bg-color": "rgb(" + this.state.QuizData.BGColor + ")",
+        "--play-button-selection-color":
+          "rgb(" + this.state.QuizData.SelectionColor + ")",
+        "--play-button-bg-color": "rgb(" + this.state.QuizData.BtnColor + ")",
+        "--play-button-visited-color":
+          "rgb(" + this.state.QuizData.AnsweredColor + ")",
+      };
+    }
     return (
       <div className="App" style={CssProperties}>
         <div className="warning">

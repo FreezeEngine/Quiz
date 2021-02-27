@@ -1,6 +1,12 @@
 {
   "Title":"",
   "SubTitle":"",
+  
+  "BGColor":"33, 179, 94",
+  "BtnColor":"26, 218, 176",
+  "SelectionColor":"0, 140, 255",
+  "AnsweredColor":"44, 196, 216",
+
   "QuizMap":[
   {
     "title": "Тема 1",
