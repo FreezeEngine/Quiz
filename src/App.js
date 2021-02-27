@@ -12,7 +12,7 @@ class App extends Component {
       Question: false,
       Answered: false,
       Correctly: false,
-      QuizData: QuizLoader,
+      QuizData: null,
       CurrentOrder: 1,
       incorrect: false,
       Reset: false,
@@ -46,10 +46,10 @@ class App extends Component {
   }
   QuizQuestionSelect = (rowKey, colomnKey) => {
     let QuizData = this.state.QuizData;
-    QuizData[rowKey]["Quests"][colomnKey]["Answered"] = true;
+    QuizData.QuizMap[rowKey]["Quests"][colomnKey]["Answered"] = true;
     this.setState({
       QuizData: QuizData,
-      Question: QuizData[rowKey]["Quests"][colomnKey],
+      Question: QuizData.QuizMap[rowKey]["Quests"][colomnKey],
       Answered: true,
     });
   };
@@ -168,7 +168,7 @@ class App extends Component {
     }
   };
   View = () => {
-    if (!this.state.isLoaded) {
+    if (!this.state.isLoaded|this.state.QuizData==null) {
       return (
         <div className="quiz-question">
           <p className="question">Загрузка</p>
@@ -232,9 +232,9 @@ class App extends Component {
           <h1 className="text">Не хватает размера экрана для отображения</h1>
         </div>
         <div className="quiz-area">
-          <h1 className="title">{this.state.QuizData.Title}</h1>
+          <h1 className="title">{(this.state.isLoaded)?(this.state.QuizData.Title):("")}</h1>
           <div className="quiz">{this.View()}</div>
-          <h6 className="title">{this.state.QuizData.SubTitle}</h6>
+          <h6 className="title">{(this.state.isLoaded)?(this.state.QuizData.SubTitle):("")}</h6>
         </div>
       </div>
     );
