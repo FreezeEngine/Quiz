@@ -172,7 +172,7 @@ class App extends Component {
       return (
         <table className="quiz-table">
           <tbody>
-            {this.state.QuizData.map((row, rowKey) => (
+            {this.state.QuizData.QuizMap.map((row, rowKey) => (
               <tr>
                 <td className="quiz-title">
                   <h1>{row.title}</h1>
@@ -208,18 +208,21 @@ class App extends Component {
     }
   };
   render() {
+    let CssProperties = {
+      '--bg-color':'rgb('+this.state.QuizData.BGColor+')',
+      '--play-button-selection-color':'rgb(',
+      '--play-button-bg-color':'rgb(',
+      '--play-button-visited-color':'rgb('
+    };
     return (
-      <div className="App">
+      <div className="App" style={CssProperties}>
         <div className="warning">
           <h1 className="text">Не хватает размера экрана для отображения</h1>
         </div>
         <div className="quiz-area">
-          <h1 className="title">Экология</h1>
+          <h1 className="title">{this.state.QuizData.Title}</h1>
           <div className="quiz">{this.View()}</div>
-          <h6 className="title">
-            Подготовили студенты группы ИК-022: Сидоренко Александр, Булатова
-            Мария, Андрютина Ольга
-          </h6>
+          <h6 className="title">{this.state.QuizData.SubTitle}</h6>
         </div>
       </div>
     );
