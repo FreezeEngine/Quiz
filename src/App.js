@@ -203,9 +203,11 @@ class App extends Component {
       if (typeof this.state.Question.Answer !== "undefined") {
         answers = this.Answers(this.state.Question.Answer);
       }
+      let image = (typeof this.state.Question.ImageSrc !== "undefined")?(<img className="QuestImage" src={"./data/img"+this.state.Question.ImageSrc} alt=""/>):(null);
       return (
         <div className="quiz-question">
           <p className="question">{this.state.Question.Question}</p>
+          {image}
           {answers}
           <button className="back-button" onClick={this.Back}>
             <h6>Вернуться к вопросам</h6>

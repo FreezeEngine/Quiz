@@ -4,8 +4,17 @@
   font-weight: normal;
   font-style: normal;
 }
-body{
+body {
   margin: 0;
+}
+.QuestImage {
+  width: auto;
+  height: 40vh;
+  max-height: 230px;
+  border-radius: 5%;
+  border-style:solid;
+  border-color: rgba(48, 45, 45, 0.315);
+  box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.6);
 }
 .App {
   --play-zone-bg-color: #fff;
