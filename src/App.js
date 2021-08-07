@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import QuestButton from "./components/QuestButton";
 import AnswerButton from "./components/AnswerButton";
 import OrderButton from "./components/OrderButton";
-import QuizLoader from "./QuizData/QuizLoader";
 
 class App extends Component {
   constructor(props) {
@@ -204,6 +203,7 @@ class App extends Component {
         answers = this.Answers(this.state.Question.Answer);
       }
       let image = (typeof this.state.Question.ImageSrc !== "undefined")?(<img className="QuestImage" src={"/data/img/"+this.state.Question.ImageSrc} alt=""/>):(null);
+      console.log(typeof this.state.Question.ImageSrc !== "undefined");
       return (
         <div className="quiz-question">
           <p className="question">{this.state.Question.Question}</p>
